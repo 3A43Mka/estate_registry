@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const {User, Issuer, Region, District, Settlement, Street, Building} = require('../models/models')
+const {User,  History, Issuer, Region, District, Settlement, Street, Building} = require('../models/models')
 
 class IssuerController {
   async add(req, res, next) {
@@ -61,6 +61,8 @@ class IssuerController {
         contacts,
         buildingId
       });
+      // creating log
+      await History.create({type: 'ISSUER_ADDED', userId: req.user.id});
       return res.json({newIssuer});
     } catch (e) {
       return next(ApiError.internal(e));

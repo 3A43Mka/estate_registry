@@ -60,6 +60,8 @@ class EstateController {
         document_number,
         buildingId
       });
+      // creating log
+      await History.create({type: 'ESTATE_ADDED', userId: req.user.id});
       return res.json({newEstate});
     } catch (e) {
       return next(ApiError.internal(e));

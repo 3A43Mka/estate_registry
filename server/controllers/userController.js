@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {User} = require('../models/models')
+const {User, History} = require('../models/models')
 
 const generateJwt = (id, email, role) => {
   return jwt.sign(
@@ -28,6 +28,8 @@ class UserController {
     const hashPassword = await bcrypt.hash(password, 5);
     const user = await User.create({fullname, dob, passport_series, passport_id, passport_date,
       passport_authority, taxpayer_number, email, password: hashPassword});
+    // creating log
+    await History.create({type: 'USER_REGISTERED', userId: user.id});
     const token = generateJwt(user.id, user.email, user.role);
     return res.json({token})
   }
@@ -45,6 +47,8 @@ class UserController {
     if (!comparePassword) {
       return next(ApiError.internal('Wrong password'));
     }
+    // creating log
+    await History.create({type: 'USER_LOGGED_IN', userId: user.id});
     const token = generateJwt(user.id, user.email, user.role);
     return res.json({token});
   }
@@ -76,6 +80,12 @@ class UserController {
       { is_active: !user.is_active },
       { where: { id } }
     );
+    // creating log
+    if (user.is_active) {
+      await History.create({type: 'USER_DEACTIVATED', userId: user.id});
+    } else {
+      await History.create({type: 'USER_ACTIVATED', userId: user.id});
+    }
     return res.json(result);
   }
 }
