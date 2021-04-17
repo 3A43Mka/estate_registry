@@ -75,7 +75,7 @@ const Issuer = sequelize.define('issuer', {
 
 const History = sequelize.define('history', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  reason: {type: DataTypes.STRING, allowNull: false},
+  reason: {type: DataTypes.STRING},
   type: {type: DataTypes.STRING, allowNull: false},
 });
 
