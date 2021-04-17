@@ -11,7 +11,7 @@ class HistoryController {
       limit = limit || 9;
       let offset = page * limit - limit;
       const logs = await History.findAndCountAll({limit, offset, include: [{model: Request, as: 'request'},
-          {model: Record, as: 'record'}]});
+          {model: Record, as: 'record'}, {model: User, as: 'user'}]});
       return res.json({logs});
     } catch (e) {
       return next(ApiError.internal(e));
