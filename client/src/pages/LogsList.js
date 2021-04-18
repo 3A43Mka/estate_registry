@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import {fetchLogs} from "../http/LogsAPI";
+import {fetchLogs} from "../http/logsAPI";
 
 const LogsList = () => {
 
@@ -26,11 +26,10 @@ const LogsList = () => {
     handleFetchLogs();
   }, [page]);
 
-  console.log("LOGS", logs);
   const renderLogsList = (logs) => logs.map((log) =>
     <tr key={log.id}>
       <td>{log.id}</td>
-      <td>{Date(log.created_at).toLocaleString()}</td>
+      <td>{(new Date(log.createdAt)).toLocaleString()}</td>
       <td>{log.type}</td>
       <td>{log.user.fullname}</td>
       <td>{log.reason}</td>

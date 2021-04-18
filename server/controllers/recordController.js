@@ -36,7 +36,10 @@ class RecordController {
           model: Request,
           as: 'request',
           include: [{model: Issuer, as: 'issuer'}, {model: Estate, as: 'estate'}]
-        }]
+        }],
+        order: [
+          ['id', 'DESC'],
+        ]
       });
       return res.json({records});
     } catch (e) {

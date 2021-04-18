@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const {Estate, Region, District, Settlement, Street, Building} = require('../models/models')
+const { History, Estate, Region, District, Settlement, Street, Building} = require('../models/models')
 
 class EstateController {
   async add(req, res, next) {
@@ -64,13 +64,16 @@ class EstateController {
       await History.create({type: 'ESTATE_ADDED', userId: req.user.id});
       return res.json({newEstate});
     } catch (e) {
+      console.log(JSON.stringify(e));
       return next(ApiError.internal(e));
     }
   }
 
   async getAll(req, res, next) {
     try {
-      const estates = await Estate.findAll();
+      const estates = await Estate.findAll({order: [
+          ['id', 'DESC'],
+        ]});
       return res.json({estates});
     } catch (e) {
       return next(ApiError.internal(e));

@@ -71,7 +71,9 @@ class IssuerController {
 
   async getAll(req, res, next) {
     try {
-      const issuers = await Issuer.findAll();
+      const issuers = await Issuer.findAll({order: [
+          ['id', 'DESC'],
+        ]});
       return res.json({issuers});
     } catch (e) {
       return next(ApiError.internal(e));

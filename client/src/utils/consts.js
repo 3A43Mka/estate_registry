@@ -1,7 +1,15 @@
 export const ADMIN_ROUTE = '/admin';
 export const USERS_LIST_ROUTE = '/users-list';
 export const LOGS_LIST_ROUTE = '/logs-list';
+export const REGISTER_NEW_USER_ROUTE = '/register-new-user';
 export const RECORDER_ROUTE = '/recorder';
 export const LOGIN_ROUTE = '/login';
-export const REGISTRATION_ROUTE = '/register';
+export const SEARCH_REQUESTS_ROUTE = '/search-requests';
+export const REQUEST_ROUTE = '/request';
+export const RECORD_ROUTE = '/record';
+export const SEARCH_RECORDS_ROUTE = '/search-records';
+export const ADD_ISSUER_ROUTE = '/add-issuer';
+export const ADD_ESTATE_ROUTE = '/add-estate';
+export const ADD_REQUEST_ROUTE = '/add-request';
+export const ADD_RECORD_ROUTE = '/add-record';
 export const SHOP_ROUTE = '/shop';

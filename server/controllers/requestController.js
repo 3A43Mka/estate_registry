@@ -74,7 +74,10 @@ class RequestController {
           model: Estate,
           as: 'estate',
           where: estateOptions
-        }]
+        }],
+        order: [
+          ['id', 'DESC'],
+        ]
       });
       return res.json({requests});
     } catch (e) {

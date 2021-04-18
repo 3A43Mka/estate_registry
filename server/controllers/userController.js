@@ -59,7 +59,9 @@ class UserController {
   }
 
   async getAll(req, res) {
-    const users = await User.findAll();
+    const users = await User.findAll({order: [
+        ['id', 'ASC'],
+      ],});
     return res.json(users);
   }
 
