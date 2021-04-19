@@ -11,3 +11,8 @@ export const addEstate = async (name, type, cadastral_number, registration_numbe
   });
   return data;
 }
+
+export const getEstates = async () => {
+  const {data} = await $authHost.get('api/estate/');
+  return data;
+}

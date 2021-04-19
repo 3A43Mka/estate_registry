@@ -131,7 +131,7 @@ const NavBar = observer(() => {
               onClick={() => logOut()}
               className="ml-2"
             >
-              Выйти
+              Вийти
             </Button>
           </Nav>)
         }
@@ -151,7 +151,8 @@ const NavBar = observer(() => {
             >
               Відомості
             </Button>
-            <Button variant={"outline-light"} onClick={() => history.push(LOGIN_ROUTE)}>Авторизація</Button>
+            <Button variant={"outline-light"} className="ml-2"
+                    onClick={() => history.push(LOGIN_ROUTE)}>Авторизація</Button>
           </Nav>
         )
         }

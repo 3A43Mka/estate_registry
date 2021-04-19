@@ -44,6 +44,19 @@ const SearchRequests = () => {
     }
   }
 
+  const typeFormatter = (type) => {
+    switch (type) {
+      case "ACQUIRE":
+        return "Набуття прав";
+      case "ALTER":
+        return "Зміна прав";
+      case "TERMINATION":
+        return "Припинення прав";
+      default:
+        return type;
+    }
+  }
+
   const renderPages = () => {
     let lastPage = Math.ceil(totalCount / 9);
     if (lastPage === 0) lastPage = 1;
@@ -111,7 +124,7 @@ const SearchRequests = () => {
       <td>{request.id}</td>
       <td>{(new Date(request.createdAt)).toLocaleString()}</td>
       <td>{(new Date(request.issued_at)).toLocaleDateString()}</td>
-      <td>{request.type}</td>
+      <td>{typeFormatter(request.type)}</td>
       <td>{request.issuer.fullname}</td>
       <td>{request.estate.name}</td>
 
@@ -231,6 +244,12 @@ const SearchRequests = () => {
                 placeholder="Тип нерухомого майна"
                 value={buildingType}
                 onChange={e => setBuildingType(e.target.value)}
+              />
+
+              <h5 className="mt-1">Адреса нерухомого майна</h5>
+              <Form.Control
+                className="mt-1"
+                placeholder="Адреса нерухомого майна"
               />
 
               <h5 className="mt-1">Кадастровий номер земельної ділянки</h5>

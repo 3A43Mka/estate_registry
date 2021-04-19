@@ -6,6 +6,10 @@ export const addIssuer = async (fullname, dob, unique_number, taxpayer_number, d
     fullname, dob, unique_number, taxpayer_number, document, contacts, region,
     district, settlement, street, building
   });
-  // localStorage.setItem('token', data.token)
+  return data;
+}
+
+export const getIssuers = async () => {
+  const {data} = await $authHost.get('api/issuer/');
   return data;
 }

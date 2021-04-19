@@ -34,8 +34,21 @@ export const searchRequests = async (type, requisites, ownership_share, issued_a
   return data;
 }
 
+export const addRequest = async (type, requisites, ownership_share, issued_at, issuerId, estateId) => {
+  const {data} = await $authHost.post('api/request/', {
+    type,
+    requisites,
+    ownership_share,
+    issued_at,
+    issuerId,
+    estateId
+  });
+  console.log(data);
+  return data;
+}
+
 export const getRequest = async (id) => {
-  const {data} = await $host.get('api/request/'+id);
+  const {data} = await $host.get('api/request/' + id);
   console.log(data);
   return data;
 }
