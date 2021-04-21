@@ -1,7 +1,7 @@
 import Admin from "./pages/Admin";
 import {
   ADD_ESTATE_ROUTE,
-  ADD_ISSUER_ROUTE, ADD_RECORD_ROUTE, ADD_REQUEST_ROUTE,
+  ADD_ISSUER_ROUTE, ADD_REQUEST_ROUTE,
   ADMIN_ROUTE,
   LOGIN_ROUTE, LOGS_LIST_ROUTE, RECORD_ROUTE,
   RECORDER_ROUTE, REGISTER_NEW_USER_ROUTE, REQUEST_ROUTE, SEARCH_RECORDS_ROUTE, SEARCH_REQUESTS_ROUTE,
@@ -20,7 +20,7 @@ import RequestPage from "./pages/requestPage";
 import AddIssuer from "./pages/addIssuer";
 import AddEstate from "./pages/addEstate";
 import AddRequest from "./pages/addRequest";
-import AddRecord from "./pages/addRecord";
+import RecordPage from "./pages/recordPage";
 
 export const adminRoutes = [
   {
@@ -58,10 +58,6 @@ export const recorderRoutes = [
     path: ADD_REQUEST_ROUTE,
     Component: AddRequest
   },
-  {
-    path: ADD_RECORD_ROUTE,
-    Component: AddRecord
-  },
 ];
 
 export const publicRoutes = [
@@ -87,6 +83,6 @@ export const publicRoutes = [
   },
   {
     path: RECORD_ROUTE + "/:id",
-    Component: RequestPage
+    Component: RecordPage
   },
 ];

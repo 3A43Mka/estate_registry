@@ -93,13 +93,6 @@ const NavBar = observer(() => {
             </Button>
             <Button
               variant={"outline-light"}
-              onClick={() => history.push(ADD_RECORD_ROUTE)}
-              className="ml-2"
-            >
-              Додати відомість
-            </Button>
-            <Button
-              variant={"outline-light"}
               onClick={() => history.push(ADD_ESTATE_ROUTE)}
               className="ml-2"
             >

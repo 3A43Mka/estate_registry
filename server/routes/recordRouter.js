@@ -5,6 +5,7 @@ const checkRole = require('../middleware/checkRoleMiddleware');
 
 router.post('/', checkRole('RECORDER'), recordController.add);
 router.get('/', checkRole('RECORDER'), recordController.getAll);
+router.get('/getActive', recordController.getActive);
 router.get('/:id', recordController.getOne);
 router.patch('/toggleRecord/:id', checkRole('RECORDER'), recordController.toggleRecord);
 

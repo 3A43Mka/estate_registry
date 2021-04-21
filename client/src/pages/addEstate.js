@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
-import {Container, Form} from "react-bootstrap";
+import {Container, Dropdown, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {addIssuer} from "../http/issuersAPI";
 import {addEstate} from "../http/estatesAPI";
@@ -22,9 +22,21 @@ const AddEstate = () => {
   const [street, setStreet] = useState('');
   const [building, setBuilding] = useState('');
 
+  const [buildingOptions, setBuildingOptions] = useState([
+    {value: "LAND_PLOT", label: "Земельна ділянка"},
+    {value: "HOUSE", label: "Будинок"},
+    {value: "BUILDING", label: "Будівля"},
+    {value: "CONSTRUCTION", label: "Споруда"},
+    {value: "APARTMENT", label: "Квартира"},
+    {value: "LIVING_SPACE", label: "Житлове приміщення"},
+    {value: "NON_LIVING_SPACE", label: "Нежитлове приміщення"},
+    {value: "UNFINISHED_BUILDING", label: "Незавершена будівля"},
+    {value: "OTHER", label: "Інше"},
+  ]);
+
   const click = async () => {
     try {
-      const data = await addEstate(name, buildingType, cadastralNumber, registrationNumber, documentNumber, region,
+      const data = await addEstate(name, buildingType.value, cadastralNumber, registrationNumber, documentNumber, region,
         district, settlement, street, building);
       // setRequests(data.rows);
       alert('Нерухомість успішно додано');
@@ -50,12 +62,19 @@ const AddEstate = () => {
             />
 
             <h5 className="mt-1">Тип нерухомого майна</h5>
-            <Form.Control
-              className="mt-1"
-              placeholder="Тип нерухомого майна"
-              value={buildingType}
-              onChange={e => setBuildingType(e.target.value)}
-            />
+            <Dropdown className="mt-2 mb-2">
+              <Dropdown.Toggle>{buildingType.label ? buildingType.label : "Виберіть тип нерухомого майна"}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {buildingOptions.map(type =>
+                  <Dropdown.Item
+                    onClick={() => setBuildingType(type)}
+                    key={type.value}
+                  >
+                    {type.label}
+                  </Dropdown.Item>
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
 
             <h5 className="mt-1">Кадастровий номер земельної ділянки</h5>
             <Form.Control
@@ -80,7 +99,7 @@ const AddEstate = () => {
               value={documentNumber}
               onChange={e => setDocumentNumber(e.target.value)}
             />
-            <h5 className="mt-1">Адреса місця постійного проживання заявника</h5>
+            <h5 className="mt-1">Адреса нерухомого майна</h5>
             <Form.Control
               className="mt-1"
               placeholder="Область"

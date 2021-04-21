@@ -39,7 +39,7 @@ const AddRequest = () => {
   ])
 
   useEffect(() => {
-    getIssuers().then((issuers) => setIssuers(issuers.issuers.concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers).concat(issuers.issuers)));
+    getIssuers().then((issuers) => setIssuers(issuers.issuers));
     getEstates().then((estates) => setEstates(estates.estates));
   }, []);
 

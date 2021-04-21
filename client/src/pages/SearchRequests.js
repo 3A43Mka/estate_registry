@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Col, Container, Form, Row, Table} from "react-bootstrap";
+import {Col, Container, Dropdown, Form, Row, Table} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import {registration} from "../http/userAPI";
@@ -15,7 +15,7 @@ const SearchRequests = () => {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
-  const [type, setType] = useState('');
+  const [type, setType] = useState({});
   const [requisites, setRequisites] = useState('');
   const [ownershipShare, setOwnershipShare] = useState('');
   const [issuedAt, setIssuedAt] = useState('');
@@ -29,6 +29,34 @@ const SearchRequests = () => {
   const [cadastralNumber, setCadastralNumber] = useState('');
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [documentNumber, setDocumentNumber] = useState('');
+
+  const [typeOptions, setTypeOptions] = useState([
+    {value: "ACQUIRE", label: "Набуття прав"},
+    {value: "ALTER", label: "Зміна прав"},
+    {value: "TERMINATION", label: "Припинення прав"},
+  ])
+
+  // 'LAND_PLOT',
+  //   'HOUSE',
+  //   'BUILDING',
+  //   'CONSTRUCTION',
+  //   'APARTMENT',
+  //   'LIVING_SPACE',
+  //   'NON_LIVING_SPACE',
+  //   'UNFINISHED_BUILDING',
+  //   'OTHER'
+
+  const [buildingOptions, setBuildingOptions] = useState([
+    {value: "LAND_PLOT", label: "Земельна ділянка"},
+    {value: "HOUSE", label: "Будинок"},
+    {value: "BUILDING", label: "Будівля"},
+    {value: "CONSTRUCTION", label: "Споруда"},
+    {value: "APARTMENT", label: "Квартира"},
+    {value: "LIVING_SPACE", label: "Житлове приміщення"},
+    {value: "NON_LIVING_SPACE", label: "Нежитлове приміщення"},
+    {value: "UNFINISHED_BUILDING", label: "Незавершена будівля"},
+    {value: "OTHER", label: "Інше"},
+  ])
 
   const handleNextPage = async () => {
     setPage(page + 1);
@@ -133,8 +161,8 @@ const SearchRequests = () => {
 
   const click = async () => {
     try {
-      const data = await searchRequests(type, requisites, ownershipShare,
-        issuedAt, fullname, dob, uniqueNumber, taxpayerNumber, contacts, name, buildingType, cadastralNumber,
+      const data = await searchRequests(type.value, requisites, ownershipShare,
+        issuedAt, fullname, dob, uniqueNumber, taxpayerNumber, contacts, name, buildingType.value, cadastralNumber,
         registrationNumber, documentNumber, page);
       // setRequests(data.rows);
       setRequests(data.requests.rows);
@@ -157,12 +185,19 @@ const SearchRequests = () => {
             <h2 className="m-auto">Шукати заяви</h2>
             <Form className="d-flex flex-column">
               <h5 className="mt-1">Тип заяви</h5>
-              <Form.Control
-                className="mt-3"
-                placeholder="Тип заяви"
-                value={type}
-                onChange={e => setType(e.target.value)}
-              />
+              <Dropdown className="mt-2 mb-2">
+                <Dropdown.Toggle>{type.label ? type.label : "Виберіть тип заяви"}</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {typeOptions.map(type =>
+                    <Dropdown.Item
+                      onClick={() => setType(type)}
+                      key={type.value}
+                    >
+                      {type.label}
+                    </Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
               <h5 className="mt-1">Реквізити платежу про справляння адміністративного збору</h5>
               <Form.Control
                 className="mt-1"
@@ -239,12 +274,19 @@ const SearchRequests = () => {
               />
 
               <h5 className="mt-1">Тип нерухомого майна</h5>
-              <Form.Control
-                className="mt-1"
-                placeholder="Тип нерухомого майна"
-                value={buildingType}
-                onChange={e => setBuildingType(e.target.value)}
-              />
+              <Dropdown className="mt-2 mb-2">
+                <Dropdown.Toggle>{buildingType.label ? buildingType.label : "Виберіть тип нерухомого майна"}</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {buildingOptions.map(type =>
+                    <Dropdown.Item
+                      onClick={() => setBuildingType(type)}
+                      key={type.value}
+                    >
+                      {type.label}
+                    </Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
 
               <h5 className="mt-1">Адреса нерухомого майна</h5>
               <Form.Control
