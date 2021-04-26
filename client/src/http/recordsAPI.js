@@ -61,16 +61,16 @@ export const searchRecordsActive = async (type, requisites, ownership_share, iss
   return data;
 }
 
-export const addRecord = async (requestId) => {
+export const addRecord = async (requestId, reason) => {
   const {data} = await $authHost.post('api/record/', {
-    requestId
+    requestId, reason
   });
   console.log(data);
   return data;
 }
 
-export const toggleRecord = async (recordId) => {
-  const {data} = await $authHost.patch(`api/record/toggleRecord/${recordId}`);
+export const toggleRecord = async (recordId, reason) => {
+  const {data} = await $authHost.patch(`api/record/toggleRecord/${recordId}`, {reason: reason});
   console.log(data);
   return data;
 }

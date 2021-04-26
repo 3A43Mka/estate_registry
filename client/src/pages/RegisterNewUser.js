@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 import Card from "react-bootstrap/Card";
 import {Container, Form} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
-import {NavLink} from "react-router-dom";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../utils/consts";
 import Button from "react-bootstrap/Button";
-import {login, registration} from "../http/userAPI";
+import {registration} from "../http/userAPI";
 
 // fullname,
 //   dob,
@@ -44,7 +42,7 @@ const RegisterNewUser = () => {
 
   const click = async () => {
     try {
-      const data = await registration(fullname, dob, passportSeries,
+      await registration(fullname, dob, passportSeries,
         passportId, passportDate, passportAuthority, taxpayerNumber, email, password);
       alert("Користувача зареєстровано");
       resetForm();

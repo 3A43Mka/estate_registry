@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 class RecordController {
   async add(req, res, next) {
     try {
-      const {requestId} = req.body;
+      const {requestId, reason} = req.body;
 
       if (!requestId) {
         return next(ApiError.badRequest('Invalid data for Record creation'));
@@ -17,7 +17,7 @@ class RecordController {
         requestId
       });
       // creating log
-      await History.create({type: 'RECORD_ADDED', userId: req.user.id, recordId: newRecord.id});
+      await History.create({type: 'RECORD_ADDED', userId: req.user.id, recordId: newRecord.id, reason: reason});
       return res.json({newRecord});
     } catch (e) {
       return next(ApiError.internal(e));
@@ -163,7 +163,8 @@ class RecordController {
   }
 
   async toggleRecord(req, res) {
-    const {id, reason} = req.params;
+    const {id} = req.params;
+    const {reason} = req.body;
     const record = await Record.findOne(
       {
         where: {id}

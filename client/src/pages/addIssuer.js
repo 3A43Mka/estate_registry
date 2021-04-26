@@ -12,7 +12,7 @@ const AddIssuer = () => {
 
   const click = async () => {
     try {
-      const data = await addIssuer(fullname, dob, uniqueNumber, taxpayerNumber, document, contacts, region,
+      await addIssuer(fullname, dob, uniqueNumber, taxpayerNumber, document, contacts, region,
         district, settlement, street, building);
       // setRequests(data.rows);
       alert('Заявника успішно додано');

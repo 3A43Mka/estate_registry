@@ -30,11 +30,35 @@ const LogsList = () => {
     <tr key={log.id}>
       <td>{log.id}</td>
       <td>{(new Date(log.createdAt)).toLocaleString()}</td>
-      <td>{log.type}</td>
+      <td>{logFormatter(log.type)}</td>
       <td>{log.user.fullname}</td>
       <td>{log.reason}</td>
     </tr>
   )
+
+  const logFormatter = (log) => {
+    switch (log) {
+      case "RECORD_ADDED":
+        return "Відомість додано";
+      case "RECORD_TOGGLED":
+        return "Змінено видимість відомості";
+      case "USER_LOGGED_IN":
+        return "Вхід в систему";
+      case "REQUEST_ADDED":
+        return "Додано заяву";
+      case "ESTATE_ADDED":
+        return "Додано нерухомість";
+      case "ISSUER_ADDED":
+        return "Додано заявника";
+      case "USER_ACTIVATED":
+        return "Користувача активовано";
+      case "USER_DEACTIVATED":
+        return "Користувача деактивовано";
+      default:
+        return log;
+    }
+  }
+
 
   const renderPages = () => {
     const isFirstPage = page === 1;

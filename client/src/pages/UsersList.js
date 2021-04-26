@@ -12,7 +12,8 @@ const UsersList = () => {
   }
 
   const handleToggleUser = async (id) => {
-    const answer = await toggleUser(id);
+    const reason = prompt("Вкажіть причину:");
+    await toggleUser(id, reason);
     handleFetchUsers();
   }
 
@@ -20,12 +21,23 @@ const UsersList = () => {
     handleFetchUsers();
   }, []);
 
+  const userFormatter = (role) => {
+    switch (role) {
+      case "ADMIN":
+        return "Адміністратор";
+      case "RECORDER":
+        return "Реєстратор";
+      default:
+        return role;
+    }
+  }
+
   const renderUsersList = (users) => users.map((user) =>
     <tr key={user.id}>
       <td>{user.id}</td>
       <td>{user.fullname}</td>
       <td>{user.email}</td>
-      <td>{user.role}</td>
+      <td>{userFormatter(user.role)}</td>
       <td>{(user.role === "RECORDER") && (
         <>
           {user.is_active ? (

@@ -2,9 +2,8 @@ import React, {useContext, useState} from 'react';
 import {Col, Container, Dropdown, Form, Row, Table} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import {registration} from "../http/userAPI";
-import {searchRecords, searchRecordsActive, searchRecordsAll} from "../http/recordsAPI";
-import {RECORD_ROUTE, REQUEST_ROUTE, SEARCH_RECORDS_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {searchRecordsActive, searchRecordsAll} from "../http/recordsAPI";
+import {RECORD_ROUTE} from "../utils/consts";
 import {useHistory} from 'react-router-dom'
 import {Context} from "../index";
 
@@ -33,7 +32,7 @@ const SearchRecords = () => {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [documentNumber, setDocumentNumber] = useState('');
 
-  const [typeOptions, setTypeOptions] = useState([
+  const [typeOptions] = useState([
     {value: "ACQUIRE", label: "Набуття прав"},
     {value: "ALTER", label: "Зміна прав"},
     {value: "TERMINATION", label: "Припинення прав"},
@@ -49,7 +48,7 @@ const SearchRecords = () => {
   //   'UNFINISHED_BUILDING',
   //   'OTHER'
 
-  const [buildingOptions, setBuildingOptions] = useState([
+  const [buildingOptions] = useState([
     {value: "LAND_PLOT", label: "Земельна ділянка"},
     {value: "HOUSE", label: "Будинок"},
     {value: "BUILDING", label: "Будівля"},
@@ -136,25 +135,12 @@ const SearchRecords = () => {
   // // parameters for estate
   // let {name, building_type, cadastral_number, registration_number, document_number} = req.query;
 
-  const resetForm = () => {
-    // setFullName('');
-    // setDob('');
-    // setPassportSeries('');
-    // setPassportId('');
-    // setPassportDate('');
-    // setPassportAuthority('');
-    // setTaxpayerNumber('');
-    // setEmail('');
-    // setPassword('');
-  }
-
   const renderRecordsList = (records) => records.map((record) =>
     <tr key={record.id} style={{cursor: "pointer"}}
         onClick={() => history.push(RECORD_ROUTE + "/" + record.id)}
         onMouseDown={(e) => mouseDownHandler(e, record.id)}>
       <td>{record.id}</td>
       <td>{(new Date(record.createdAt)).toLocaleString()}</td>
-      <td>{typeFormatter(record.request.type)}</td>
       <td>{record.request.issuer.fullname}</td>
       <td>{record.request.estate.name}</td>
 
@@ -352,9 +338,7 @@ const SearchRecords = () => {
             <thead>
             <tr>
               <th>#</th>
-              <th>Час внесення заяви</th>
-              <th>Дата подання заяви</th>
-              <th>Тип заяви</th>
+              <th>Час внесення відомості</th>
               <th>Заявник</th>
               <th>Нерухомість</th>
             </tr>

@@ -5,7 +5,7 @@ export const fetchUsers = async () => {
   return data;
 }
 
-export const toggleUser = async (id) => {
-  const {data} = await $authHost.patch(`api/user/toggleUser/${id}`)
+export const toggleUser = async (id, reason) => {
+  const {data} = await $authHost.patch(`api/user/toggleUser/${id}`, {reason: reason});
   return data;
 }

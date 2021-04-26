@@ -34,14 +34,15 @@ export const searchRequests = async (type, requisites, ownership_share, issued_a
   return data;
 }
 
-export const addRequest = async (type, requisites, ownership_share, issued_at, issuerId, estateId) => {
+export const addRequest = async (type, requisites, ownership_share, issued_at, issuerId, estateId, reason) => {
   const {data} = await $authHost.post('api/request/', {
     type,
     requisites,
     ownership_share,
     issued_at,
     issuerId,
-    estateId
+    estateId,
+    reason
   });
   console.log(data);
   return data;

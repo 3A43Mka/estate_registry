@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Container, Row, Col} from "react-bootstrap";
 import {Link, useParams} from 'react-router-dom'
-import {getRequest, searchRequests} from "../http/requestsAPI";
 import {getFullAddress} from "../http/addressAPI";
 import Button from "react-bootstrap/Button";
 import {Context} from "../index";
-import {addRecord, getRecord, toggleRecord} from "../http/recordsAPI";
+import {getRecord, toggleRecord} from "../http/recordsAPI";
+import {getRecordLogs} from "../http/logsAPI";
+import {toJS} from "mobx";
 
 const RecordPage = () => {
 
@@ -14,12 +15,14 @@ const RecordPage = () => {
 
   const {id} = useParams()
   const [record, setRecord] = useState({});
+  const [logs, setLogs] = useState([]);
   const [issuerAddress, setIssuerAddress] = useState({});
   const [estateAddress, setEstateAddress] = useState({});
 
   const handleToggleRecord = async () => {
     try {
-      const data = await toggleRecord(record.id);
+      const reason = prompt("Вкажіть причину деактивації відомості:");
+      await toggleRecord(record.id, reason);
       // setRequests(data.rows);
       getRecord(id).then((record) => setRecord(record.record));
     } catch (e) {
@@ -36,7 +39,8 @@ const RecordPage = () => {
 
   useEffect(() => {
     getRecord(id).then((record) => setRecord(record.record));
-  }, []);
+    getRecordLogs(id).then((logs) => setLogs(logs.logs));
+  }, [id]);
 
   // {value: "LAND_PLOT", label: "Земельна ділянка"},
   // {value: "HOUSE", label: "Будинок"},
@@ -47,6 +51,17 @@ const RecordPage = () => {
   // {value: "NON_LIVING_SPACE", label: "Нежитлове приміщення"},
   // {value: "UNFINISHED_BUILDING", label: "Незавершена будівля"},
   // {value: "OTHER", label: "Інше"},
+
+  const logFormatter = (log) => {
+    switch (log) {
+      case "RECORD_ADDED":
+        return "Відомість додано";
+      case "RECORD_TOGGLED":
+        return "Змінено видимість";
+      default:
+        return log;
+    }
+  }
 
   const buildingTypeFormatter = (type) => {
     switch (type) {
@@ -103,7 +118,7 @@ const RecordPage = () => {
                   <p><strong>Адреса нерухомого майна
                     заявника:</strong> {estateAddress.region.name}, {estateAddress.district.name}, {estateAddress.settlement.name}, {estateAddress.street.name}, {estateAddress.building.name}
                   </p>
-                  {(user.user.role === "RECORDER" && record.is_active) && (
+                  {(user.isAuth && user.user.role === "RECORDER" && record.is_active) && (
                     <Button
                       variant={"outline-success"}
                       onClick={handleToggleRecord}
@@ -112,7 +127,7 @@ const RecordPage = () => {
                     </Button>
                   )}
 
-                  {(user.user.role === "RECORDER" && !record.is_active) && (
+                  {(user.isAuth && user.user.role === "RECORDER" && !record.is_active) && (
                     <Button
                       variant={"outline-success"}
                       onClick={handleToggleRecord}
@@ -120,6 +135,14 @@ const RecordPage = () => {
                       {'Активувати відомість'}
                     </Button>
                   )}
+                  <h2>Події, пов'язані з відомістю</h2>
+                  {logs.map((log) => {
+                    return (
+                      <>
+                        <p>{ (new Date(log.createdAt)).toLocaleString()} - {logFormatter(log.type)} - {log.reason} - {log.userId}</p>
+                      </>
+                    )
+                  })}
 
                 </>
               ): (

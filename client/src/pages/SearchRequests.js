@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import {Col, Container, Dropdown, Form, Row, Table} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import {registration} from "../http/userAPI";
 import {searchRequests} from "../http/requestsAPI";
-import {REQUEST_ROUTE, SEARCH_RECORDS_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {REQUEST_ROUTE} from "../utils/consts";
 import {useHistory} from 'react-router-dom'
 
 const SearchRequests = () => {
@@ -30,7 +29,7 @@ const SearchRequests = () => {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [documentNumber, setDocumentNumber] = useState('');
 
-  const [typeOptions, setTypeOptions] = useState([
+  const [typeOptions] = useState([
     {value: "ACQUIRE", label: "Набуття прав"},
     {value: "ALTER", label: "Зміна прав"},
     {value: "TERMINATION", label: "Припинення прав"},
@@ -46,7 +45,7 @@ const SearchRequests = () => {
   //   'UNFINISHED_BUILDING',
   //   'OTHER'
 
-  const [buildingOptions, setBuildingOptions] = useState([
+  const [buildingOptions] = useState([
     {value: "LAND_PLOT", label: "Земельна ділянка"},
     {value: "HOUSE", label: "Будинок"},
     {value: "BUILDING", label: "Будівля"},
@@ -132,18 +131,6 @@ const SearchRequests = () => {
   // let {fullname, dob, unique_number, taxpayer_number, contacts} = req.query;
   // // parameters for estate
   // let {name, building_type, cadastral_number, registration_number, document_number} = req.query;
-
-  const resetForm = () => {
-    // setFullName('');
-    // setDob('');
-    // setPassportSeries('');
-    // setPassportId('');
-    // setPassportDate('');
-    // setPassportAuthority('');
-    // setTaxpayerNumber('');
-    // setEmail('');
-    // setPassword('');
-  }
 
   const renderRequestsList = (requests) => requests.map((request) =>
     <tr key={request.id} style={{cursor: "pointer"}}

@@ -3,7 +3,6 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import {Container, Dropdown, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {addIssuer} from "../http/issuersAPI";
 import {addEstate} from "../http/estatesAPI";
 
 // name, type, cadastral_number, registration_number, document_number, region,
@@ -22,7 +21,7 @@ const AddEstate = () => {
   const [street, setStreet] = useState('');
   const [building, setBuilding] = useState('');
 
-  const [buildingOptions, setBuildingOptions] = useState([
+  const [buildingOptions] = useState([
     {value: "LAND_PLOT", label: "Земельна ділянка"},
     {value: "HOUSE", label: "Будинок"},
     {value: "BUILDING", label: "Будівля"},
@@ -36,7 +35,7 @@ const AddEstate = () => {
 
   const click = async () => {
     try {
-      const data = await addEstate(name, buildingType.value, cadastralNumber, registrationNumber, documentNumber, region,
+      await addEstate(name, buildingType.value, cadastralNumber, registrationNumber, documentNumber, region,
         district, settlement, street, building);
       // setRequests(data.rows);
       alert('Нерухомість успішно додано');

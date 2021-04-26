@@ -1,4 +1,4 @@
-import {$authHost, $host} from "./index";
+import {$authHost} from "./index";
 
  // name, type, cadastral_number, registration_number, document_number, region,
  // district, settlement, street, building

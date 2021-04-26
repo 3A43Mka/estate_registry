@@ -22,6 +22,27 @@ class HistoryController {
       return next(ApiError.internal(e));
     }
   }
+
+  async getRequestLogs(req, res, next) {
+    try {
+      let {id} = req.params;
+      const logs = await History.findAll({where: {requestId: id}});
+      return res.json({logs});
+    } catch (e) {
+      return next(ApiError.internal(e));
+    }
+  }
+
+  async getRecordLogs(req, res, next) {
+    try {
+      let {id} = req.params;
+      const logs = await History.findAll({where: {recordId: id}});
+      return res.json({logs});
+    } catch (e) {
+      return next(ApiError.internal(e));
+    }
+  }
+
 }
 
 module.exports = new HistoryController()

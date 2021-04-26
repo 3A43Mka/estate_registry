@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import {Container, Dropdown, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {addIssuer, getIssuers} from "../http/issuersAPI";
+import {getIssuers} from "../http/issuersAPI";
 import {addRequest} from "../http/requestsAPI";
 import {getEstates} from "../http/estatesAPI";
 
@@ -13,10 +13,9 @@ const AddRequest = () => {
 
   const click = async () => {
     try {
-      const data = await addRequest(type.value, requisites, ownershipShare, issuedAt, issuer.id, estate.id);
-      alert(type.value + " | " + requisites + " | " + ownershipShare + " | " + issuedAt + " | " + issuer.id + " | " + estate.id);
-      // setRequests(data.rows);
-      alert('Заявника успішно додано');
+      const reason = prompt("Вкажіть причину подання заяви:")
+      await addRequest(type.value, requisites, ownershipShare, issuedAt, issuer.id, estate.id, reason);
+      alert('Заяву успішно додано');
     } catch (e) {
       alert(e.response.data.message)
     }
@@ -32,7 +31,7 @@ const AddRequest = () => {
   const [issuer, setIssuer] = useState({});
   const [estate, setEstate] = useState({});
 
-  const [typeOptions, setTypeOptions] = useState([
+  const [typeOptions] = useState([
     {value: "ACQUIRE", label: "Набуття прав"},
     {value: "ALTER", label: "Зміна прав"},
     {value: "TERMINATION", label: "Припинення прав"},

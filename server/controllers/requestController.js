@@ -6,9 +6,13 @@ const Op = Sequelize.Op;
 class RequestController {
   async add(req, res, next) {
     try {
-      const {type, requisites, ownership_share, issued_at, issuerId, estateId} = req.body;
+      const {type, requisites, ownership_share, issued_at, issuerId, estateId, reason} = req.body;
 
       if (!type || !requisites || !ownership_share || !issued_at || !issuerId || !estateId) {
+        return next(ApiError.badRequest('Invalid data for Request creation'));
+      }
+
+      if (ownership_share <= 0 || ownership_share > 100) {
         return next(ApiError.badRequest('Invalid data for Request creation'));
       }
 
@@ -22,14 +26,13 @@ class RequestController {
         userId: req.user.id
       });
       // creating log
-      await History.create({type: 'REQUEST_ADDED', userId: req.user.id, requestId: newRequest.id});
+      await History.create({type: 'REQUEST_ADDED', userId: req.user.id, requestId: newRequest.id, reason: reason});
       return res.json({newRequest});
     } catch (e) {
       return next(ApiError.internal(e));
     }
   }
 
-// @TODO search
   async getAll(req, res, next) {
     try {
       let {limit, page} = req.query;

@@ -4,10 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {NavLink} from "react-router-dom";
 import {
-  ADMIN_ROUTE,
   LOGIN_ROUTE,
   SHOP_ROUTE,
-  RECORDER_ROUTE,
   USERS_LIST_ROUTE,
   LOGS_LIST_ROUTE,
   REGISTER_NEW_USER_ROUTE,
@@ -15,7 +13,7 @@ import {
   SEARCH_RECORDS_ROUTE,
   ADD_ISSUER_ROUTE,
   ADD_ESTATE_ROUTE,
-  ADD_REQUEST_ROUTE, ADD_RECORD_ROUTE
+  ADD_REQUEST_ROUTE
 } from "../utils/consts";
 import {Button} from "react-bootstrap";
 import {observer} from "mobx-react-lite";

@@ -1,25 +1,27 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Container, Row, Col} from "react-bootstrap";
 import {useParams} from 'react-router-dom'
-import {getRequest, searchRequests} from "../http/requestsAPI";
+import {getRequest} from "../http/requestsAPI";
 import {getFullAddress} from "../http/addressAPI";
+import {getRequestLogs} from "../http/logsAPI";
 import Button from "react-bootstrap/Button";
 import {Context} from "../index";
 import {addRecord} from "../http/recordsAPI";
 
 const RequestPage = () => {
 
-
   const {user} = useContext(Context)
 
   const {id} = useParams()
   const [request, setRequest] = useState({});
+  const [logs, setLogs] = useState([]);
   const [issuerAddress, setIssuerAddress] = useState({});
   const [estateAddress, setEstateAddress] = useState({});
 
   const createRecord = async () => {
     try {
-      const data = await addRecord(request.id);
+      const reason = prompt("Вкажіть причину:")
+      await addRecord(request.id, reason);
       // setRequests(data.rows);
       alert("Відомість успішно сформована");
     } catch (e) {
@@ -36,7 +38,8 @@ const RequestPage = () => {
 
   useEffect(() => {
     getRequest(id).then((request) => setRequest(request.request));
-  }, []);
+    getRequestLogs(id).then((logs) => setLogs(logs.logs));
+  }, [id]);
 
   // {value: "LAND_PLOT", label: "Земельна ділянка"},
   // {value: "HOUSE", label: "Будинок"},
@@ -47,6 +50,15 @@ const RequestPage = () => {
   // {value: "NON_LIVING_SPACE", label: "Нежитлове приміщення"},
   // {value: "UNFINISHED_BUILDING", label: "Незавершена будівля"},
   // {value: "OTHER", label: "Інше"},
+
+  const logFormatter = (log) => {
+    switch (log) {
+      case "REQUEST_ADDED":
+        return "Заяву додано";
+      default:
+        return log;
+    }
+  }
 
   const buildingTypeFormatter = (type) => {
     switch (type) {
@@ -102,7 +114,7 @@ const RequestPage = () => {
                   <p><strong>Адреса нерухомого майна
                     заявника:</strong> {estateAddress.region.name}, {estateAddress.district.name}, {estateAddress.settlement.name}, {estateAddress.street.name}, {estateAddress.building.name}
                   </p>
-                  {user.user.role === "RECORDER" && (
+                  { ( user.isAuth && user.user.role === "RECORDER") && (
                     <Button
                       variant={"outline-success"}
                       onClick={createRecord}
@@ -110,7 +122,14 @@ const RequestPage = () => {
                       {'Сформувати відомість на основі заяви'}
                     </Button>
                   )}
-
+                  <h2>Події, пов'язані з заявою</h2>
+                  {logs.map((log) => {
+                    return (
+                      <>
+                        <p>{ (new Date(log.createdAt)).toLocaleString()} - {logFormatter(log.type)} - {log.reason} - {log.userId}</p>
+                      </>
+                    )
+                  })}
                 </>
               ): (
                 <>

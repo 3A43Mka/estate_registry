@@ -67,6 +67,7 @@ class UserController {
 
   async toggleUser(req, res) {
     const {id} = req.params;
+    const {reason} = req.body;
     const user = await User.findOne(
       {
         where: {id}
@@ -84,9 +85,9 @@ class UserController {
     );
     // creating log
     if (user.is_active) {
-      await History.create({type: 'USER_DEACTIVATED', userId: user.id});
+      await History.create({type: 'USER_DEACTIVATED', userId: user.id, reason: reason});
     } else {
-      await History.create({type: 'USER_ACTIVATED', userId: user.id});
+      await History.create({type: 'USER_ACTIVATED', userId: user.id, reason: reason});
     }
     return res.json(result);
   }
